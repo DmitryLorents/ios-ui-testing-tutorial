@@ -59,6 +59,7 @@ class LoginViewController: UIViewController {
     }
     
     private func presentAlert(with title: String, message: String) {
+        loadingActivity.stopAnimating()
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
  
         alertVC.addAction(.init(title: "Ok", style: .default, handler: nil))
