@@ -25,16 +25,17 @@ class UITestingTutorialUITests: XCTestCase {
     }
     func testValidLoginSuccess() {
         //given
-        let sut = LoginViewController()
-        let validPassword = sut.expectedPassword//"abc123"
-        let validUserName = sut.expectedUserName//"CodePro"
+        //let sut = LoginViewController()
+        let validPassword = "abc123"//sut.expectedPassword//"abc123"
+        let validUserName = "CodePro"//sut.expectedUserName//"CodePro"
         let app = XCUIApplication()
         let passwordTF = app.secureTextFields["Password"]
         let userNameTF = app.textFields["Username"]
         
         //when-1
+        app.launch()
         app.navigationBars["Mockify Music"].buttons["Profile"].tap()
-        
+                        
         //then-1
         XCTAssertTrue(userNameTF.exists)
         XCTAssertTrue(passwordTF.exists)
@@ -45,8 +46,12 @@ class UITestingTutorialUITests: XCTestCase {
         passwordTF.tap()
         passwordTF.typeText(validPassword)
         app/*@START_MENU_TOKEN@*/.staticTexts["Login"]/*[[".buttons[\"Login\"].staticTexts[\"Login\"]",".staticTexts[\"Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        let downloadCell = app.tables.staticTexts["My Downloads"]
+        
         
         //then-2
+        wait(for: [], timeout: 5)
+        XCTAssertTrue(downloadCell.exists)
         
                
                         
