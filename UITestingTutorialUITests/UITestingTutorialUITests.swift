@@ -15,7 +15,7 @@ class UITestingTutorialUITests: XCTestCase {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
+        continueAfterFailure = true
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
@@ -23,6 +23,35 @@ class UITestingTutorialUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    func testInvalidLoginProgressSpinnerIsHidden() {
+        //given
+        let app = XCUIApplication()
+        let activityIndicator = app.activityIndicators["In progress"]
+        
+        //when
+        app.launch()
+        app.navigationBars["Mockify Music"].buttons["Profile"].tap()
+        app/*@START_MENU_TOKEN@*/.staticTexts["Login"]/*[[".buttons[\"Login\"].staticTexts[\"Login\"]",".staticTexts[\"Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+        //then
+        XCTAssertFalse(activityIndicator.exists)
+    }
+    
+    func testInvalidLoginMissngCredentiallsAlertIsShown() {
+        
+        let app = XCUIApplication()
+        app.launch()
+        app.navigationBars["Mockify Music"].buttons["Profile"].tap()
+        app.textFields["Username"].tap()
+        app.secureTextFields["Password"].tap()
+        app/*@START_MENU_TOKEN@*/.staticTexts["Login"]/*[[".buttons[\"Login\"].staticTexts[\"Login\"]",".staticTexts[\"Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        let alert = app.alerts["Missing Credentials"]
+        XCTAssertTrue(alert.exists)
+        alert.buttons["Ok"].tap()
+                
+    }
+    
     func testValidLoginSuccess() {
         //given
         //let sut = LoginViewController()
