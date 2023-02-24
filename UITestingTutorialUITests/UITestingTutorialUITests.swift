@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import UITestingTutorial
 
 class UITestingTutorialUITests: XCTestCase {
 
@@ -22,15 +23,34 @@ class UITestingTutorialUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testValidLoginSuccess() {
+        //given
+        let sut = LoginViewController()
+        let validPassword = sut.expectedPassword//"abc123"
+        let validUserName = sut.expectedUserName//"CodePro"
         let app = XCUIApplication()
-        app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let passwordTF = app.secureTextFields["Password"]
+        let userNameTF = app.textFields["Username"]
+        
+        //when-1
+        app.navigationBars["Mockify Music"].buttons["Profile"].tap()
+        
+        //then-1
+        XCTAssertTrue(userNameTF.exists)
+        XCTAssertTrue(passwordTF.exists)
+        
+        //when-2
+        userNameTF.tap()
+        userNameTF.typeText(validUserName)
+        passwordTF.tap()
+        passwordTF.typeText(validPassword)
+        app/*@START_MENU_TOKEN@*/.staticTexts["Login"]/*[[".buttons[\"Login\"].staticTexts[\"Login\"]",".staticTexts[\"Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+        //then-2
+        
+               
+                        
     }
-
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
